@@ -1,32 +1,45 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class Main {
-    static final String OUTPUT_FILENAME = "output.txt";
+    static final String OUTPUT_FILENAME_SUFFIX = "-grouped.txt";
 
     public static void main(String[] args) {
+        HashMap<Integer, ArrayList<Log>> logsGroupedByLength;
+        var userInputFilePath = getUserInputFilePath();
+        //to do: OPTIONAL
+        //if userInputFilePath != null ?;
         try {
-            Optional<Map<Integer, List<String>>> logs;
-            String fileName = args[0];
-            InputHandler inputHandler = new InputHandler();
-            OutputHandler outputHandler = new OutputHandler();
-            inputHandler.read(fileName);
-            logs = inputHandler.getLogs();
-            if(logs.isPresent()){
-                PairingLogic scanner = new PairingLogic(logs.get());
-                scanner.findAllPatterns();
-                outputHandler.extract(OUTPUT_FILENAME, scanner.getPatterns());
+            TextFileLogsProvider textFileLogsProvider = new TextFileLogsProvider();
+            LogsLengthGroupingLogic logsLengthGroupingLogic = new LogsLengthGroupingLogic();
+            textFileLogsProvider.read(userInputFilePath, logsLengthGroupingLogic);
+            logsGroupedByLength = logsLengthGroupingLogic.getLogsGroupedByLength();
+            if(logsGroupedByLength.isEmpty()){
+                System.out.println("\n" + userInputFilePath + " doesn't contain logs");
             }
             else{
-                System.out.println("\nThis file doesn't contain logs");
+                LogsPatternGroupingLogic logsPatternGroupingLogic = new LogsPatternGroupingLogic();
+                logsPatternGroupingLogic.findAllPatterns(logsGroupedByLength);
+                String outputFilePath = getOutputFilePath(userInputFilePath);
+                TextFileGroupsLogsWriter textFileGroupsLogsWriter = new TextFileGroupsLogsWriter();
+                textFileGroupsLogsWriter.write(outputFilePath, logsPatternGroupingLogic.getActivePatterns());
             }
         } catch (FileNotFoundException e) {
-            System.out.println("\nThis file doesn't exist.");
+            System.out.println( "\n" + userInputFilePath + " doesn't exist.");
         } catch (IOException e) {
-            System.out.println("\nSomething went wrong.\nPlease try again.");
+            System.out.println("\nSomething went wrong while accessing information using streams, files and directories.\nPlease try again.");
         }
+    }
+
+    private static String getUserInputFilePath(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter file path: ");
+        return scanner.nextLine();
+    }
+
+    private static String getOutputFilePath(String inputFilePath){
+        String[] splitOutputFilePath = inputFilePath.split("\\.", 2);
+        return splitOutputFilePath[0] + OUTPUT_FILENAME_SUFFIX;
     }
 }
