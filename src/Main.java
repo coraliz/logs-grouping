@@ -28,7 +28,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println( "\n" + userInputFilePath + " doesn't exist.");
         } catch (IOException e) {
-            System.out.println("\nSomething went wrong while accessing information using streams, files and directories.\nPlease try again.");
+            System.out.println("\nSomething went wrong while accessing files or directories.\nPlease try again.");
         }
     }
 

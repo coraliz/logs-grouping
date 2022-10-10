@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class TextFileGroupsLogsWriter {
 
@@ -16,25 +17,10 @@ public class TextFileGroupsLogsWriter {
         }
     }
 
-    public String formatPattern(Pattern pattern) {
-        // todo: think of a nicer way to write this code
-        StringBuilder patternDescription = new StringBuilder();
-        StringBuilder changingWordsDescription = new StringBuilder("The changing words: ");
-        boolean isFirstLog = true;
-        for(Log log : pattern.getLogs()){
-            var logLine = log.getLogLine();
-            patternDescription.append(logLine).append("\n");
-            var changingWord = logLine.split(" ")[pattern.getChangingWordsIndex()];
-            if (!isFirstLog){
-                changingWordsDescription.append(", ").append(changingWord);
-            }
-            else{
-                changingWordsDescription.append(changingWord);
-                isFirstLog = false;
-            }
-        }
-        changingWordsDescription.append("\n\n");
-        patternDescription.append(changingWordsDescription);
-        return patternDescription.toString();
+    private String formatPattern(Pattern pattern) {
+        // todo: make sure it's ok like that. it seems unreadable.
+        var patternLogs = pattern.getLogs();
+        return patternLogs.stream().map(Log::getLogLine).collect(Collectors.joining("\n")) + "\n" + "The changing words: "
+                + patternLogs.stream().map(log -> log.getLogLine().split(" ")[pattern.getChangingWordsIndex()]).collect(Collectors.joining(", ")) + "\n\n";
     }
 }
