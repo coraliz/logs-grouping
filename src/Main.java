@@ -3,13 +3,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    static final String OUTPUT_FILENAME_SUFFIX = "-grouped.txt";
+    private static final String OUTPUT_FILENAME_SUFFIX = "-grouped.txt";
 
     public static void main(String[] args) {
         HashMap<Integer, ArrayList<Log>> logsGroupedByLength;
         var userInputFilePath = getUserInputFilePath();
-        //to do: OPTIONAL
-        //if userInputFilePath != null ?;
+        // todo: OPTIONAL
+        // If userInputFilePath != null ?;
         try {
             TextFileLogsProvider textFileLogsProvider = new TextFileLogsProvider();
             LogsLengthGroupingLogic logsLengthGroupingLogic = new LogsLengthGroupingLogic();

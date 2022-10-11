@@ -2,12 +2,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Pattern {
-    final private String _logWildcardSentence;
-    final private ArrayList<Log> _logs;
-    final private int _changingWordsIndex;
+    private static final String CHANGING_WORD_REPLACEMENT = " ";
+    private final String _patternString;
+    private final ArrayList<Log> _logs;
+    private final int  _changingWordsIndex;
 
-    public Pattern(String wildcard, int changingWordIndex, Log firstLog) {
-        _logWildcardSentence = wildcard;
+    public Pattern(int changingWordIndex, Log firstLog) {
+        // Extracts the string from the log
+        var firstLogWords = firstLog.getWords();
+        firstLogWords[changingWordIndex] = CHANGING_WORD_REPLACEMENT;
+        _patternString = String.join(" ", firstLogWords);
         _logs = new ArrayList<>();
         _logs.add(firstLog);
         _changingWordsIndex = changingWordIndex;
@@ -17,12 +21,12 @@ public class Pattern {
         _logs.add(additionalLog);
     }
 
-    public String getLogWildcardSentence(){
-        return _logWildcardSentence;
+    public String getPattenString(){
+        return _patternString;
     }
 
     public Log getFirstLog(){
-        //ArrayList is an ordered collection
+        // ArrayList is an ordered collection
         return _logs.get(0);
     }
 
@@ -40,11 +44,11 @@ public class Pattern {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pattern pattern = (Pattern) o;
-        return Objects.equals(_logWildcardSentence, pattern.getLogWildcardSentence());
+        return Objects.equals(_patternString, pattern.getPattenString());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_logWildcardSentence);
+        return Objects.hash(_patternString);
     }
 }

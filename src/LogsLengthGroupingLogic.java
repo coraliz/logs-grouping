@@ -1,12 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 
 public class LogsLengthGroupingLogic {
     private final HashMap<Integer, ArrayList<Log>> _logsGroupedByLength;
 
     public LogsLengthGroupingLogic(){
-        //todo: what's the problem with HashMap<long, ArrayList<Log>>
         _logsGroupedByLength = new HashMap<>();
     }
 
