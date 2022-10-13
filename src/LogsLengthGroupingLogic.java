@@ -9,7 +9,7 @@ public class LogsLengthGroupingLogic {
     }
 
     public void addLog(String logTextLine){
-        Integer logLineSpaceCount = Math.toIntExact(logTextLine.chars().filter(ch -> ch == ' ').count());
+        var logLineSpaceCount = Math.toIntExact(logTextLine.chars().filter(ch -> ch == ' ').count());
         if (!_logsGroupedByLength.containsKey(logLineSpaceCount)){
             _logsGroupedByLength.put(logLineSpaceCount, new ArrayList<>());
         }

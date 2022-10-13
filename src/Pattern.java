@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Pattern {
+public final class Pattern {
+    // todo : appears twice!
+    private static final int LOG_SENTENCE_FIRST_INDEX = 2;
     private static final String CHANGING_WORD_REPLACEMENT = " ";
     private final String _patternString;
     private final ArrayList<Log> _logs;
@@ -9,8 +11,9 @@ public class Pattern {
 
     public Pattern(int changingWordIndex, Log firstLog) {
         // Extracts the string from the log
+        // todo : we can't use changingWordIndex because it's global
         var firstLogWords = firstLog.getWords();
-        firstLogWords[changingWordIndex] = CHANGING_WORD_REPLACEMENT;
+        firstLogWords[changingWordIndex - LOG_SENTENCE_FIRST_INDEX] = CHANGING_WORD_REPLACEMENT;
         _patternString = String.join(" ", firstLogWords);
         _logs = new ArrayList<>();
         _logs.add(firstLog);
@@ -21,16 +24,13 @@ public class Pattern {
         _logs.add(additionalLog);
     }
 
-    public String getPattenString(){
-        return _patternString;
-    }
 
     public Log getFirstLog(){
         // ArrayList is an ordered collection
         return _logs.get(0);
     }
 
-    public ArrayList<Log> getLogs(){
+    public Iterable<Log> getLogs(){
         return _logs;
     }
 
@@ -44,11 +44,11 @@ public class Pattern {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pattern pattern = (Pattern) o;
-        return Objects.equals(_patternString, pattern.getPattenString());
+        return Objects.equals(_patternString, pattern._patternString);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_patternString);
+        return _patternString.hashCode();
     }
 }

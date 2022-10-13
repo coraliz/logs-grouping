@@ -22,7 +22,7 @@ public class Log {
     public ArrayList<Pattern> getExtractedPatterns(){
         ArrayList<Pattern> extractedPatterns = new ArrayList<>();
         for (int i = 0; i < _words.length; i++) {
-            Pattern pattern = new Pattern(i, this);
+            Pattern pattern = new Pattern(i + LOG_SENTENCE_FIRST_INDEX , this);
             extractedPatterns.add(pattern);
         }
         return extractedPatterns;

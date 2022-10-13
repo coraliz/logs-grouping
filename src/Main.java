@@ -6,24 +6,22 @@ public class Main {
     private static final String OUTPUT_FILENAME_SUFFIX = "-grouped.txt";
 
     public static void main(String[] args) {
-        HashMap<Integer, ArrayList<Log>> logsGroupedByLength;
-        var userInputFilePath = getUserInputFilePath();
-        // todo: OPTIONAL
-        // If userInputFilePath != null ?;
+        var scanner = new Scanner(System.in);
+        String userInputFilePath;
+        while ((userInputFilePath = getUserInputFilePath(scanner)).isEmpty());
         try {
-            TextFileLogsProvider textFileLogsProvider = new TextFileLogsProvider();
-            LogsLengthGroupingLogic logsLengthGroupingLogic = new LogsLengthGroupingLogic();
+            var textFileLogsProvider = new TextFileLogsProvider();
+            var logsLengthGroupingLogic = new LogsLengthGroupingLogic();
             textFileLogsProvider.read(userInputFilePath, logsLengthGroupingLogic);
-            logsGroupedByLength = logsLengthGroupingLogic.getLogsGroupedByLength();
+            var logsGroupedByLength = logsLengthGroupingLogic.getLogsGroupedByLength();
             if(logsGroupedByLength.isEmpty()){
                 System.out.println("\n" + userInputFilePath + " doesn't contain logs");
             }
             else{
-                LogsPatternGroupingLogic logsPatternGroupingLogic = new LogsPatternGroupingLogic();
-                logsPatternGroupingLogic.findAllPatterns(logsGroupedByLength);
-                String outputFilePath = getOutputFilePath(userInputFilePath);
-                TextFileGroupsLogsWriter textFileGroupsLogsWriter = new TextFileGroupsLogsWriter();
-                textFileGroupsLogsWriter.write(outputFilePath, logsPatternGroupingLogic.getActivePatterns());
+                var logsPatternGroupingLogic = new LogsPatternGroupingLogic();
+                var outputFilePath = getOutputFilePath(userInputFilePath);
+                var textFileGroupsLogsWriter = new TextFileGroupsLogsWriter();
+                textFileGroupsLogsWriter.write(outputFilePath, logsPatternGroupingLogic.findAllPatterns(logsGroupedByLength));
             }
         } catch (FileNotFoundException e) {
             System.out.println( "\n" + userInputFilePath + " doesn't exist.");
@@ -32,14 +30,13 @@ public class Main {
         }
     }
 
-    private static String getUserInputFilePath(){
-        Scanner scanner = new Scanner(System.in);
+    private static String getUserInputFilePath(Scanner scanner){
         System.out.println("Enter file path: ");
         return scanner.nextLine();
     }
 
     private static String getOutputFilePath(String inputFilePath){
-        String[] splitOutputFilePath = inputFilePath.split("\\.", 2);
+        var splitOutputFilePath = inputFilePath.split("\\.", 2);
         return splitOutputFilePath[0] + OUTPUT_FILENAME_SUFFIX;
     }
 }
