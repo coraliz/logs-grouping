@@ -1,0 +1,6 @@
+01-01-2012 10:14:00 George hates school
+01-01-2012 20:12:00 George loves animals
+02-01-2012 10:14:00 Nadav loves animals
+02-01-2012 11:11:00 Nadav loves food
+03-01-2012 13:55:00 Neomi loves animals
+04-01-2012 18:32:00 Neomi loves food
