@@ -1,7 +1,7 @@
 # Logs Grouping - Exercise
 This repository contains a program which is implemented with Java and designed to group logs from a file and create a new file of it. 
 Each group contains all the logs that are identical to each other except for one word. 
-For example, `"01-01-2012 20:12:00 **Neomi** is eating at a restaurant"` and `"03-01-2012 10:23:00 **George** is eating at a restaurant that receives"` can be grouped together.
+For example, `"01-01-2012 20:12:00 Neomi is eating at a restaurant"` and `"03-01-2012 10:23:00 George is eating at a restaurant that receives"` can be grouped together.
 
  This program receives an input of the absolute path for a log file which the user provides when prompted by the program. 
  After this alogrithm has ran, the output file will be extracted to the same directory. The output file's name is identical to the input file's name with the suffix: `"-grouped"`. 
